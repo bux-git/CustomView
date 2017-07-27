@@ -16,7 +16,7 @@ Android坐标系是以屏幕左上角为坐标原点，X轴向右增大，Y轴�
 * 总之相对坐标系，就是以某一个View的左上角作为原点的坐标系
 
 一般来说，我们要获取 View 的坐标和高度 等，都必须等到 View 绘制完毕以后才能获取的到，   
-在 Activity 的 onCreate() 方法 里面 是获取不到的，必须等到 View 绘制完毕以后才能获取地到 View 的响应的坐标，    
+在 Activity 的 onCreate() 方法 里面 是获取不到的，必须等到 View 绘制完毕以后才能获取到 View 的响应的坐标，    
 一般来说，主要有以下两种方法： 
 >    第一种方法，Activity onWindowFocusChanged() 方法里面进行调用
 
@@ -46,8 +46,8 @@ View获取坐标方法  | 坐标说明|
 以下方法获取坐标都是相对于父布局|
 getLeft()  |返回View左上角X坐标 |
 getTop()  | 返回View左上角Y坐标 |
-getTop()  | 返回View右下角X坐标 |
-getTop()  | 返回View右下角Y坐标 |
+getRight()  | 返回View右下角X坐标 |
+getBottom()  | 返回View右下角Y坐标 |
 在 api 14 以后 ，在动画执行过程中，要改变 View 的状态，推荐使用 setTranslationY() 和 setTranslationX() 等方法，而尽量避免改变 LayoutParams.因为性能来说较差|
 getTranslationX()  | 返回值为X方向上相对与Left的偏移量 默认值为0| 
 getTranslationY()  | 返回值为Y方向上相对于top的偏移量 默认值为0| 
@@ -92,8 +92,8 @@ __View滑动相关的坐标__
   偏移量mScrollX，mScrollY只针对于该View中onDraw()方法里的内容|
    mScrollX | 该View的内容相对于View坐标系X方向的偏移量|
    mScrollY | 该View的内容相对于View坐标系Y方向的偏移量|
- scrollTo(int x, int y)  |将View中的内容在相对于View的坐标系中，滑动偏移相应的x,y 注意：x，y为正时向靠近原点的方向偏移 为负则相反.同时此类滑动方法值改变 mScrollX Y的值 不该变top left等|
-scrollBy(int x, int y) | 实质为scrollTo()，只是只改变Y轴滑动。|
-setScrollX(int value) | 在scrollTo()的基础上继续滑动xy。|
-setScrollY(int value) | 实质为scrollTo()，只是只改变X轴滑动。|
+ scrollTo(int x, int y)  |将View中的内容在相对于View的坐标系中，滑动偏移相应的x,y 注意：x，y为正时向靠近原点的方向偏移 为负则相反.同时此类滑动方法值改变 mScrollX Y的值 不改变top left等|
+scrollBy(int x, int y) | 在scrollTo()的基础上继续滑动xy。|
+setScrollX(int value) | 实质为scrollTo()，只是只改变x滑动|
+setScrollY(int value) | 实质为scrollTo()，只是只改变y轴滑动。|
 getScrollX()/getScrollY() | 获取当前滑动位置偏移量。|
