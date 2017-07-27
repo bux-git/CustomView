@@ -1,8 +1,9 @@
 ﻿#### 坐标系相关知识
 
-__一.Android坐标系定义__  
-![img](https://github.com/bux-git/CustomView/raw/master/Coorinate/coordinate.gif)   
 
+![img](https://raw.githubusercontent.com/bux-git/CustomView/master/Coordinate/coordinate.gif)   
+
+__一.Android坐标系定义__  
 Android坐标系是以屏幕左上角为坐标原点，X轴向右增大，Y轴向下增大（与数字坐标系相反）  
 在坐标系中根据两个点就可以确定一块矩形区域，即View的左上角和右下角2个坐标可以确定View的大小  
 * 1.相对于View的坐标系:即以View左上角为原点(0,0)的坐标系      
