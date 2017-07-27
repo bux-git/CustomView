@@ -2,7 +2,9 @@
 
 
 ![img](https://raw.githubusercontent.com/bux-git/CustomView/master/Coordinate/coordinate.gif)   
-
+学习资料:   
+[你真的了解View的坐标吗?](https://mp.weixin.qq.com/s?__biz=MzA5MzI3NjE2MA==&mid=2650238405&idx=1&sn=16f2696e4c7b3a7630ed6c010c8f400f&chksm=88639caabf1415bc2bcb323ed39be642c256b8784566043e6635a5ed0ac885de50830714ccb4&mpshare=1&scene=23&srcid=0208HPYXDFfGHwso8xpeYWx1#rd)
+[Android应用坐标系统全面详解](http://blog.csdn.net/yanbober/article/details/50419117/)
 __一.Android坐标系定义__  
 Android坐标系是以屏幕左上角为坐标原点，X轴向右增大，Y轴向下增大（与数字坐标系相反）  
 在坐标系中根据两个点就可以确定一块矩形区域，即View的左上角和右下角2个坐标可以确定View的大小  
