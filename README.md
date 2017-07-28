@@ -19,4 +19,5 @@ __一.基础篇__
 *  [安卓自定义View基础 - 颜色](https://github.com/GcsSloop/AndroidNote/blob/master/CustomView/Base/%5B03%5DColor.md)     
 
 __二.进阶__    
-* [自定义View总览 ](https://github.com/bux-git/CustomView/tree/master/CustomSummary)
+* [自定义View总览 ](https://github.com/bux-git/CustomView/tree/master/CustomSummary)     
+* [自定义属性](https://github.com/bux-git/CustomView/tree/master/CustomAttrs)    
