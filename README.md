@@ -16,4 +16,7 @@
 __一.基础篇__   
 *  [坐标系知识系列](https://github.com/bux-git/CustomView/tree/master/Coordinate)  
 *  [安卓自定义View基础 - 角度弧度](https://github.com/GcsSloop/AndroidNote/blob/master/CustomView/Base/%5B02%5DAngleAndRadian.md)  
-*  [安卓自定义View基础 - 颜色](https://github.com/GcsSloop/AndroidNote/blob/master/CustomView/Base/%5B03%5DColor.md)
+*  [安卓自定义View基础 - 颜色](https://github.com/GcsSloop/AndroidNote/blob/master/CustomView/Base/%5B03%5DColor.md)     
+
+__二.进阶__    
+* [自定义View总览 ](https://github.com/bux-git/CustomView/tree/master/CustomSummary)
