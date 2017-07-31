@@ -173,4 +173,45 @@ __4.View中获取自定义属性__
 --------- | --------|
 context | 上下文|
 attrs | 布局文件中设置的属性的数组|
-attrs | 布局文件中设置的属性的数组|
+defStyleAttr | 这个是当前Theme中的一个attribute，是指向style的一个引用，当在layout xml中和style中都没有为View指定属性时，会从Theme中这个attribute指向的Style中查找相应的属性值，这就是defStyle的意思，如果没有指定属性值，就用这个值，所以是默认值，但这个attribute要在Theme中指定，且是指向一个Style的引用，如果这个参数传入0表示不向Theme中搜索默认值|
+defStyleRes|这个也是指向一个Style的资源ID，但是仅在defStyleAttr为0或defStyleAttr不为0但Theme中没有为defStyleAttr属性赋值时起作用|
+
+构造函数的调用:    
+第一个构造函数在代码中实例化View会调用，  
+第二个构造函数在XML中定义则会调用设置的属性通过attrs参数传入，    
+第三个构造函数系统是不掉用的，要由View显示调用       
+
+>2.获取属性值    
+        
+     public TypedArray obtainStyledAttributes (AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes)
+     
+     TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.testable, defStyleAttr, R.style.defStyleRes); 
+     String text=array.getString(R.styleable.testable_testAttr);
+     array.recycle();
+其中第二个参数attrs，表示我们需要使用的属性的属性ID数组，其他参数和构造函数一行
+
+TypedArray主要有两个作用， 
+>第一根据传入的AttributeSet和styleable筛选出我们需要的属性数组  
+第二是内部去转换attrid和属性值数组的关系；    
+第三是提供了一些类型的自动转化，  
+
+>比如我们getString时，如果你是通过@string/hello这种方式设置的，TypedArray会自动去将ResId对应的string从资源文件中读出来。   
+说到底，都是为了方便我们获取属性参数。         
+
+对于一个属性可以在多个地方指定它的值，如XML直接定义，style，Theme，而这些位置定义的值有一个优先级，按优先级从高到低依次是：    
+
+
+在有使用obtainStyledAttributes第三个参数时:   
+直接在布局xml中定义 __>__ 布局xml中引用style __>__ obtainStyledAttributes 第三个参数:defStyleAttr __>__ 直接在theme中定义的属性    
+ obtainStyledAttributes最后一个参数 这种情况下设置无效  
+
+在有使用obtainStyledAttributes第三个参数时:   
+直接在布局xml中定义 __>__ 布局xml中引用style __>__ obtainStyledAttributes最后一个参数   __>__  直接在theme中定义的属性      
+
+学习资料：   
+[深入理解Android 自定义attr Style styleable以及其应用](http://www.jianshu.com/p/61b79e7f88fc#)    
+[ Android 深入理解Android中的自定义属性](http://blog.csdn.net/lmj623565791/article/details/45022631/)    
+[Android中自定义样式与View的构造函数中的第三个参数defStyle的意义](http://www.cnblogs.com/angeldevil/p/3479431.html)    
+
+
+

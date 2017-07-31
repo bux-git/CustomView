@@ -5,10 +5,10 @@
                 android:layout_height="match_parent"
                 tools:context=".MainActivity">
 
-    <com.dqr.www.customattrs.CustomView
+    <com.dqr.www.test.CustomTextView
+        style="@style/ThroughStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:attr_one="one in xml"
-        style="@style/layout_style"/>
+        app:attr_one="attr one in xml"/>
 
 </RelativeLayout>

@@ -6,12 +6,29 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="testAttr">1</item>
-        <item name="customTheme">@style/custom_style</item>
+        <item name="attr_one">one in theme</item>
+        <item name="attr_two">two in theme</item>
+        <item name="attr_three">three in theme</item>
+        <item name="attr_four">four in theme</item>
+        <item name="attr_five">five in theme</item>
+    </style>
+<!--
+        <item name="def_style_theme">@style/def_style_theme</item>-->
+    <style name="layout_style">
+        <item name="attr_one">one in layout style</item>
+        <item name="attr_two">two in layout style</item>
     </style>
 
-    <style name="custom_style">
-        <item name="testAttr">1</item>
+    <style name="def_style_theme">
+        <item name="attr_one">one in style theme</item>
+        <item name="attr_two">two in style theme</item>
+        <item name="attr_three">three in style theme</item>
     </style>
 
+    <style name="def_style_res">
+        <item name="attr_one">one in style res</item>
+        <item name="attr_two">two in style res</item>
+        <item name="attr_three">three in style res</item>
+        <item name="attr_four">four in style res</item>
+    </style>
 </resources>

@@ -6,9 +6,8 @@
         <attr name="attr_two" format="string" />
         <attr name="attr_three" format="string" />
         <attr name="attr_four" format="string" />
-        <attr name="attr_five" format="string" />
     </declare-styleable>
 
-    <attr name="def_style_theme" format="reference" />
+    <attr name="CustomizeStyle" format="reference" />
 
 </resources>

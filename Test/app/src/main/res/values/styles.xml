@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="attr_one">attr one from theme</item>
+        <item name="attr_two">attr two from theme</item>
+        <item name="attr_three">attr three from theme</item>
+        <item name="attr_four">attr four from theme</item>
+    </style>
+
+
+    <style name="CustomizeStyleInTheme">
+        <item name="attr_one">attr one from theme reference</item>
+        <item name="attr_two">attr two from theme reference</item>
+        <item name="attr_three">attr three from theme reference</item>
+    </style>
+
+    <style name="ThroughStyle">
+        <item name="attr_one">attr one from style</item>
+        <item name="attr_two">attr two from style</item>
+    </style>
+
+    <style name="DefaultCustomizeStyle">
+        <item name="attr_one">attr one from defalut style res</item>
+        <item name="attr_two">attr two from defalut style res</item>
+        <item name="attr_three">attr three from defalut style res</item>
+    </style>
+</resources>
