@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="test" format="integer"></attr>
-    <attr name="android:text"></attr>
+    <attr name="testAttr" format="string"></attr>
+    <attr name="customTheme" format="reference"></attr>
+    <declare-styleable name="testable">
+        <attr name="android:text"></attr>
+        <attr name="testAttr"/>
+    </declare-styleable>
 </resources>

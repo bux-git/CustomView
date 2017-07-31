@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="testAttr">1</item>
+        <item name="customTheme">@style/custom_style</item>
+    </style>
+
+    <style name="custom_style">
+        <item name="testAttr">1</item>
     </style>
 
 </resources>
