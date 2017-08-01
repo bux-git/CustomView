@@ -11,6 +11,7 @@
         <item name="attr_three">three in theme</item>
         <item name="attr_four">four in theme</item>
         <item name="attr_five">five in theme</item>
+        <item name="def_style_theme">@style/def_style_theme</item>
     </style>
 <!--
         <item name="def_style_theme">@style/def_style_theme</item>-->

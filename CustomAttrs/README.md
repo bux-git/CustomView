@@ -115,7 +115,7 @@ declare-styleable是表示一系列属性id的数组，在自定义View时由于
     
 如上所示:R.styleable.Customize是一个int[]，而里面的元素的值正好和R.attr.attr_one - R.attr.attr_four一一对应，   
 而R.styleable.Customize_attr_one等4个值就是R.attr.attr_one-R.attr.attr_four在R.styleable.Customize数组中的索引       
-这个数组和索引我们在View中获取自定义View时将会使用到，而我们也可以不实用styleable可以自己在View中构建此数组        
+这个数组和索引我们在View中获取自定义View时将会使用到，而我们也可以不使用styleable可以自己在View中构建此数组        
 
 __3.使用属性自定义__         
 >1.直接在layout文件中使用
@@ -174,11 +174,11 @@ __4.View中获取自定义属性__
 context | 上下文|
 attrs | 布局文件中设置的属性的数组|
 defStyleAttr | 这个是当前Theme中的一个attribute，是指向style的一个引用，当在layout xml中和style中都没有为View指定属性时，会从Theme中这个attribute指向的Style中查找相应的属性值，这就是defStyle的意思，如果没有指定属性值，就用这个值，所以是默认值，但这个attribute要在Theme中指定，且是指向一个Style的引用，如果这个参数传入0表示不向Theme中搜索默认值|
-defStyleRes|这个也是指向一个Style的资源ID，但是仅在defStyleAttr为0或defStyleAttr不为0但Theme中没有为defStyleAttr属性赋值时起作用|
+defStyleRes|这个也是指向一个Style的资源ID，但是仅在未设置defStyleAttr时起作用|
 
 构造函数的调用:    
 第一个构造函数在代码中实例化View会调用，  
-第二个构造函数在XML中定义则会调用设置的属性通过attrs参数传入，    
+第二个构造函数在XML中定义则会调用,xml中设置的属性通过attrs参数传入，    
 第三个构造函数系统是不掉用的，要由View显示调用       
 
 >2.获取属性值    
