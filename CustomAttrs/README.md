@@ -10,12 +10,12 @@ __二.使用自定义属性的步骤__
 
 __1.定义自定义View重写构造方法__
 
-__1.定义自定义属性__     
+__2.定义自定义属性__     
 
 在attrs文件中:  
 
     <attr name="testAttr" format="integer"></attr>   自定义属性
-或者使用系统或者已经定义好的已有的属性,直接在name中申明使用即可，     
+使用已有的系统属性或者自定义属性,直接在name中申明使用即可，     
 
     <declare-styleable name="test">
         <attr name="android:text"></attr>
