@@ -197,3 +197,200 @@ ViewGroup和普通控件都继承了View,他们的测量都是从View.measure(in
         }  
         return result;  
     }  
+
+上述onMeasure的过程则是View默认的处理过程,我们自定义时可以重写onMeasure实现自己的测量逻辑        
+ 
+
+__自定义View ,ViewGroup重写onMeasure()__   
+
+由于MeasureSpec.AT_MOST，MeasureSpec.EXACTLY 模式下解算出的宽高都是等于父View的剩余宽高，  
+所以在View默认情况下不管是math_parent还是warp_content都能占满父容器的剩余控件，所以一般在自定义时， 
+需要在onMeasure()中处理MeasureSpec.AT_MOST的情况 去算出控件的实际宽高     
+
+    @Override  
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {  
+        // 声明一个临时变量来存储计算出的测量值  
+        int resultWidth = 0;  
+      
+        // 获取宽度测量规格中的mode  
+        int modeWidth = MeasureSpec.getMode(widthMeasureSpec);  
+      
+        // 获取宽度测量规格中的size  
+        int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);  
+      
+        /* 
+         * 如果父View准确测量出子View的大小
+         */  
+        if (modeWidth == MeasureSpec.EXACTLY) {  
+            // 子View直接使用
+            resultWidth = sizeWidth;  
+        }  
+        else {  
+            // 子View自己计算出大小  
+            resultWidth = ......;  
+      
+            /* 
+             * 如果是AT_MOST模式，子View宽度不应超过父View给出的现在
+             */  
+            if (modeWidth == MeasureSpec.AT_MOST) {  
+               //得到最大限制和计算出的宽之间的最小值
+                resultWidth = Math.min(resultWidth, sizeWidth);  
+            }  
+        }  
+      
+        int resultHeight = 0;  
+        int modeHeight = MeasureSpec.getMode(heightMeasureSpec);  
+        int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);  
+      
+        if (modeHeight == MeasureSpec.EXACTLY) {  
+            resultHeight = sizeHeight;  
+        } else {  
+            resultHeight = .....;  
+            if (modeHeight == MeasureSpec.AT_MOST) {  
+                resultHeight = Math.min(resultHeight, sizeHeight);  
+            }  
+        }  
+      
+        // 设置测量尺寸  
+        setMeasuredDimension(resultWidth, resultHeight);  
+    } 
+
+在自定义ViewGroup中重写onMeasure()我们除了在测量模式为MeasureSpec.AT_MOST情况下，计算出自己的宽高外     
+还需要计算出子控件的宽高，ViewGroup中一般计算子View测量宽高的方法有以下几种        
+measureChildren、measureChild和measureChildWithMargins还有getChildMeasureSpec 几个方法，     
+我们在自定义ViewGroup时可以使用这些方法去计算
+  
+      /**
+       * 遍历子View调用measureChild去计算子 View宽高
+       *
+       * @param widthMeasureSpec 宽测量模式
+       * @param heightMeasureSpec 高测试模式
+       */
+      protected void measureChildren(int widthMeasureSpec, int heightMeasureSpec) {
+          final int size = mChildrenCount;
+          final View[] children = mChildren;
+          for (int i = 0; i < size; ++i) {
+              final View child = children[i];
+              if ((child.mViewFlags & VISIBILITY_MASK) != GONE) {
+                  measureChild(child, widthMeasureSpec, heightMeasureSpec);
+              }
+          }
+      }
+  
+      /**
+       * 根据ViewGroup传入的测量模式，计算出子View的建议测量模式
+        有处理padding
+       *
+       * @param child The child to measure
+       * @param parentWidthMeasureSpec The width requirements for this view
+       * @param parentHeightMeasureSpec The height requirements for this view
+       */
+      protected void measureChild(View child, int parentWidthMeasureSpec,
+              int parentHeightMeasureSpec) {
+          final LayoutParams lp = child.getLayoutParams();
+  
+          final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                  mPaddingLeft + mPaddingRight, lp.width);
+          final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                  mPaddingTop + mPaddingBottom, lp.height);
+  
+          child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+      }
+
+    /**
+     * 根据ViewGroup传入的测量模式，计算出子View的建议测量模式
+               有处理padding和子View的Margin
+     *
+     * @param child The child to measure
+     * @param parentWidthMeasureSpec The width requirements for this view
+     * @param widthUsed Extra space that has been used up by the parent
+     *        horizontally (possibly by other children of the parent)
+     * @param parentHeightMeasureSpec The height requirements for this view
+     * @param heightUsed Extra space that has been used up by the parent
+     *        vertically (possibly by other children of the parent)
+     */
+    protected void measureChildWithMargins(View child,
+            int parentWidthMeasureSpec, int widthUsed,
+            int parentHeightMeasureSpec, int heightUsed) {
+        final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+
+        final int childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,
+                mPaddingLeft + mPaddingRight + lp.leftMargin + lp.rightMargin
+                        + widthUsed, lp.width);
+        final int childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,
+                mPaddingTop + mPaddingBottom + lp.topMargin + lp.bottomMargin
+                        + heightUsed, lp.height);
+
+        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+    }
+
+
+       public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
+            int specMode = MeasureSpec.getMode(spec);
+            int specSize = MeasureSpec.getSize(spec);
+    
+            int size = Math.max(0, specSize - padding);
+    
+            int resultSize = 0;
+            int resultMode = 0;
+    
+            switch (specMode) {
+            // Parent has imposed an exact size on us
+            case MeasureSpec.EXACTLY:
+                if (childDimension >= 0) {
+                    resultSize = childDimension;
+                    resultMode = MeasureSpec.EXACTLY;
+                } else if (childDimension == LayoutParams.MATCH_PARENT) {
+                    // Child wants to be our size. So be it.
+                    resultSize = size;
+                    resultMode = MeasureSpec.EXACTLY;
+                } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+                    // Child wants to determine its own size. It can't be
+                    // bigger than us.
+                    resultSize = size;
+                    resultMode = MeasureSpec.AT_MOST;
+                }
+                break;
+    
+            // Parent has imposed a maximum size on us
+            case MeasureSpec.AT_MOST:
+                if (childDimension >= 0) {
+                    // Child wants a specific size... so be it
+                    resultSize = childDimension;
+                    resultMode = MeasureSpec.EXACTLY;
+                } else if (childDimension == LayoutParams.MATCH_PARENT) {
+                    // Child wants to be our size, but our size is not fixed.
+                    // Constrain child to not be bigger than us.
+                    resultSize = size;
+                    resultMode = MeasureSpec.AT_MOST;
+                } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+                    // Child wants to determine its own size. It can't be
+                    // bigger than us.
+                    resultSize = size;
+                    resultMode = MeasureSpec.AT_MOST;
+                }
+                break;
+    
+            // Parent asked to see how big we want to be
+            case MeasureSpec.UNSPECIFIED:
+                if (childDimension >= 0) {
+                    // Child wants a specific size... let him have it
+                    resultSize = childDimension;
+                    resultMode = MeasureSpec.EXACTLY;
+                } else if (childDimension == LayoutParams.MATCH_PARENT) {
+                    // Child wants to be our size... find out how big it should
+                    // be
+                    resultSize = View.sUseZeroUnspecifiedMeasureSpec ? 0 : size;
+                    resultMode = MeasureSpec.UNSPECIFIED;
+                } else if (childDimension == LayoutParams.WRAP_CONTENT) {
+                    // Child wants to determine its own size.... find out how
+                    // big it should be
+                    resultSize = View.sUseZeroUnspecifiedMeasureSpec ? 0 : size;
+                    resultMode = MeasureSpec.UNSPECIFIED;
+                }
+                break;
+            }
+            //noinspection ResourceType
+            return MeasureSpec.makeMeasureSpec(resultSize, resultMode);
+        }
+
