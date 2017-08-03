@@ -46,10 +46,10 @@ View 提供给我们操作控件测量的方法是onMeasure:
     }       
 
 onMeasure的2个签名参数是由View的父View传进来的宽高的测量规格，那么根据布局层级往上 这个测量规格最开始是由根布局传入.   
-但是在我们的布局文件中的最外层布局其实并不是Activity中的根布局     
+但是在我们的布局文件中的最外层布局其实并不是视图中的根布局     
 [Android界面架构(Activity,PhoneWiondow,DecorView)简介](http://www.cnblogs.com/l2rf/p/6099170.html)       
 ![image](activity_decorview.jpg)
-由上可知在Activity中我们应用窗口的根View 都为DecorView,确定他最初的值是在ViewRootImpl中      
+由上可知在我们应用窗口的根View 都为DecorView,确定他最初的测量模式是在ViewRootImpl中      
 
     private void performTraversals() {  
         // ………………  
@@ -212,7 +212,7 @@ __自定义View ,ViewGroup重写onMeasure()__
 
 由于MeasureSpec.AT_MOST，MeasureSpec.EXACTLY 模式下解算出的宽高都是等于父View的剩余宽高，  
 所以在View默认情况下不管是math_parent还是warp_content都能占满父容器的剩余控件，所以一般在自定义时， 
-需要在onMeasure()中处理MeasureSpec.AT_MOST的情况 去算出控件的实际宽高，类似与下面这种模式:    
+需要在onMeasure()中处理MeasureSpec.AT_MOST的情况 去算出控件的实际宽高，类似与下面这种处理:    
 
     @Override  
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {  
@@ -237,7 +237,7 @@ __自定义View ,ViewGroup重写onMeasure()__
             resultWidth = ......;  
       
             /* 
-             * 如果是AT_MOST模式，子View宽度不应超过父View给出的现在
+             * 如果是AT_MOST模式，子View宽度不应超过父View给出的大小
              */  
             if (modeWidth == MeasureSpec.AT_MOST) {  
                //得到最大限制和计算出的宽之间的最小值
@@ -264,8 +264,8 @@ __自定义View ,ViewGroup重写onMeasure()__
 
 在自定义ViewGroup中重写onMeasure()我们除了在测量模式为MeasureSpec.AT_MOST情况下，计算出自己的宽高外     
 还需要计算出子控件的宽高，ViewGroup中一般计算子View测量宽高的方法有以下几种        
-measureChildren、measureChild和measureChildWithMargins还有getChildMeasureSpec 几个方法，     
-我们在自定义ViewGroup时可以使用这些方法去计算
+measureChildren、measureChild和measureChildWithMargins，getChildMeasureSpec ，     
+我们在自定义ViewGroup时可以使用这些方法去计算子View的宽高
   
       /**
        * 通过父容器传入的widthMeasureSpec和heightMeasureSpec遍历子元素并调用measureChild方法去测量每一个子元素的宽高
@@ -435,9 +435,9 @@ __总结__
 
 整个测量流程:     
 ViewGroup:  
-由ViewRootImpl.performMeasure中调用我们根ViewG的measure方法开始  
+由ViewRootImpl.performMeasure中调用我们根View的measure方法开始  
 而后根ViewGroup.measure中调用 onMeasure()方法(重写的方法)       
-在onMeasure()方法中 可以measureChildren，measureChild，measureChildWithMargins等方法计算出子View的测量模式再调用子View.measure()方法由子View去计算自己的宽高   
+在onMeasure()方法中 可以使用measureChildren，measureChild，measureChildWithMargins等方法计算出子View的测量模式再调用子View.measure()方法由子View去计算自己的宽高   
 同时计算出自己的宽高使用setMeasuredDimension(resultWidth, resultHeight);  设置    
 
 子View:
