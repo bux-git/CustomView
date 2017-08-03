@@ -20,4 +20,5 @@ __一.基础篇__
 
 __二.进阶__    
 * [自定义View总览 ](https://github.com/bux-git/CustomView/tree/master/CustomSummary)     
-* [自定义属性](https://github.com/bux-git/CustomView/tree/master/CustomAttrs)    
+* [自定义属性](https://github.com/bux-git/CustomView/tree/master/CustomAttrs)            
+* [View的Measure](https://github.com/bux-git/CustomView/tree/master/CustomMeasure)        
