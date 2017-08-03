@@ -57,7 +57,7 @@ public class IconView extends View {
          */
         mPaint=new TextPaint(Paint.ANTI_ALIAS_FLAG|Paint.DITHER_FLAG|Paint.LINEAR_TEXT_FLAG);
         mPaint.setColor(Color.LTGRAY);
-        mPaint.setTextSize(20);
+        mPaint.setTextSize(40);
         mPaint.setTextAlign(Paint.Align.CENTER);
         mPaint.setTypeface(Typeface.DEFAULT_BOLD);
     }
