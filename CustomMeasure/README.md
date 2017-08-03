@@ -1,4 +1,11 @@
-#### View 测量        
+#### View 测量    
+       
+__学习资料:__       
+[ 自定义控件其实很简单7/12](http://blog.csdn.net/aigestudio/article/details/42989325)    
+[自定义View系列教程02--onMeasure源码详尽分析](http://blog.csdn.net/lfdfhl/article/details/51347818)    
+[Android 手把手教您自定义ViewGroup（一）](http://blog.csdn.net/lmj623565791/article/details/38339817)    
+
+
 __一.MeasureSpec__   
 View的测量过程中使用MeasureSpec在子View与父View之间传递测量结果。    
 MeasureSpec简介：  
@@ -205,7 +212,7 @@ __自定义View ,ViewGroup重写onMeasure()__
 
 由于MeasureSpec.AT_MOST，MeasureSpec.EXACTLY 模式下解算出的宽高都是等于父View的剩余宽高，  
 所以在View默认情况下不管是math_parent还是warp_content都能占满父容器的剩余控件，所以一般在自定义时， 
-需要在onMeasure()中处理MeasureSpec.AT_MOST的情况 去算出控件的实际宽高     
+需要在onMeasure()中处理MeasureSpec.AT_MOST的情况 去算出控件的实际宽高，类似与下面这种模式:    
 
     @Override  
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {  
@@ -261,7 +268,7 @@ measureChildren、measureChild和measureChildWithMargins还有getChildMeasureSpe
 我们在自定义ViewGroup时可以使用这些方法去计算
   
       /**
-       * 遍历子View调用measureChild去计算子 View宽高
+       * 通过父容器传入的widthMeasureSpec和heightMeasureSpec遍历子元素并调用measureChild方法去测量每一个子元素的宽高
        *
        * @param widthMeasureSpec 宽测量模式
        * @param heightMeasureSpec 高测试模式
@@ -323,74 +330,118 @@ measureChildren、measureChild和measureChildWithMargins还有getChildMeasureSpe
 
         child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
     }
+        
+        /**
+         *spec 父View的宽高测量模式
+         *padding 已经占用的空间
+         *childDimension 子View XML中指定的宽高 其中LayoutParams.MATCH_PARENT=-1
+         *LayoutParams.WRAP_CONTENT=-2
+         **/
+        public static int getChildMeasureSpec(int spec, int padding, int childDimension) {  
+            // 获取父容器的测量模式和尺寸大小  
+            int specMode = MeasureSpec.getMode(spec);  
+            int specSize = MeasureSpec.getSize(spec);  
+          
+            // 这个尺寸应该减去内边距的值  
+            int size = Math.max(0, specSize - padding);  
+          
+            // 声明临时变量存值  
+            int resultSize = 0;  
+            int resultMode = 0;  
+          
+            /* 
+             * 根据模式判断 
+             */  
+            switch (specMode) {  
+            case MeasureSpec.EXACTLY: // 父容器尺寸大小是一个确定的值  
+                /* 
+                 * 根据子元素的布局参数判断 
+                 */  
+                if (childDimension >= 0) { //如果childDimension是一个具体的值  
+                    // 那么就将该值作为结果  
+                    resultSize = childDimension;  
+          
+                    // 而这个值也是被确定的  
+                    resultMode = MeasureSpec.EXACTLY;  
+                } else if (childDimension == LayoutParams.MATCH_PARENT) { //如果子元素的布局参数为MATCH_PARENT  
+                    // 那么就将父容器的大小作为结果  
+                    resultSize = size;  
+          
+                    // 因为父容器的大小是被确定的所以子元素大小也是可以被确定的  
+                    resultMode = MeasureSpec.EXACTLY;  
+                } else if (childDimension == LayoutParams.WRAP_CONTENT) { //如果子元素的布局参数为WRAP_CONTENT  
+                    // 那么就将父容器的大小作为结果  
+                    resultSize = size;  
+          
+                    // 但是子元素的大小包裹了其内容后不能超过父容器  
+                    resultMode = MeasureSpec.AT_MOST;  
+                }  
+                break;  
+          
+            case MeasureSpec.AT_MOST: // 父容器尺寸大小拥有一个限制值  
+                /* 
+                 * 根据子元素的布局参数判断 
+                 */  
+                if (childDimension >= 0) { //如果childDimension是一个具体的值  
+                    // 那么就将该值作为结果  
+                    resultSize = childDimension;  
+          
+                    // 而这个值也是被确定的  
+                    resultMode = MeasureSpec.EXACTLY;  
+                } else if (childDimension == LayoutParams.MATCH_PARENT) { //如果子元素的布局参数为MATCH_PARENT  
+                    // 那么就将父容器的大小作为结果  
+                    resultSize = size;  
+          
+                    // 因为父容器的大小是受到限制值的限制所以子元素的大小也应该受到父容器的限制  
+                    resultMode = MeasureSpec.AT_MOST;  
+                } else if (childDimension == LayoutParams.WRAP_CONTENT) { //如果子元素的布局参数为WRAP_CONTENT  
+                    // 那么就将父容器的大小作为结果  
+                    resultSize = size;  
+          
+                    // 但是子元素的大小包裹了其内容后不能超过父容器  
+                    resultMode = MeasureSpec.AT_MOST;  
+                }  
+                break;  
+          
+            case MeasureSpec.UNSPECIFIED: // 父容器尺寸大小未受限制  
+                /* 
+                 * 根据子元素的布局参数判断 
+                 */  
+                if (childDimension >= 0) { //如果childDimension是一个具体的值  
+                    // 那么就将该值作为结果  
+                    resultSize = childDimension;  
+          
+                    // 而这个值也是被确定的  
+                    resultMode = MeasureSpec.EXACTLY;  
+                } else if (childDimension == LayoutParams.MATCH_PARENT) { //如果子元素的布局参数为MATCH_PARENT  
+                    // 因为父容器的大小不受限制而对子元素来说也可以是任意大小所以不指定也不限制子元素的大小  
+                    resultSize = 0;  
+                    resultMode = MeasureSpec.UNSPECIFIED;  
+                } else if (childDimension == LayoutParams.WRAP_CONTENT) { //如果子元素的布局参数为WRAP_CONTENT  
+                    // 因为父容器的大小不受限制而对子元素来说也可以是任意大小所以不指定也不限制子元素的大小  
+                    resultSize = 0;  
+                    resultMode = MeasureSpec.UNSPECIFIED;  
+                }  
+                break;  
+            }  
+          
+            // 返回封装后的测量规格  
+            return MeasureSpec.makeMeasureSpec(resultSize, resultMode);  
+        }  
 
+至此我们可以看到一个View的大小由其父容器的测量规格MeasureSpec和View本身的布局参数LayoutParams共同决定，但是即便如此，最终封装的测量规格也是一个期望值，究竟有多大还是我们调用setMeasuredDimension方法设置的。        
 
-       public static int getChildMeasureSpec(int spec, int padding, int childDimension) {
-            int specMode = MeasureSpec.getMode(spec);
-            int specSize = MeasureSpec.getSize(spec);
-    
-            int size = Math.max(0, specSize - padding);
-    
-            int resultSize = 0;
-            int resultMode = 0;
-    
-            switch (specMode) {
-            // Parent has imposed an exact size on us
-            case MeasureSpec.EXACTLY:
-                if (childDimension >= 0) {
-                    resultSize = childDimension;
-                    resultMode = MeasureSpec.EXACTLY;
-                } else if (childDimension == LayoutParams.MATCH_PARENT) {
-                    // Child wants to be our size. So be it.
-                    resultSize = size;
-                    resultMode = MeasureSpec.EXACTLY;
-                } else if (childDimension == LayoutParams.WRAP_CONTENT) {
-                    // Child wants to determine its own size. It can't be
-                    // bigger than us.
-                    resultSize = size;
-                    resultMode = MeasureSpec.AT_MOST;
-                }
-                break;
-    
-            // Parent has imposed a maximum size on us
-            case MeasureSpec.AT_MOST:
-                if (childDimension >= 0) {
-                    // Child wants a specific size... so be it
-                    resultSize = childDimension;
-                    resultMode = MeasureSpec.EXACTLY;
-                } else if (childDimension == LayoutParams.MATCH_PARENT) {
-                    // Child wants to be our size, but our size is not fixed.
-                    // Constrain child to not be bigger than us.
-                    resultSize = size;
-                    resultMode = MeasureSpec.AT_MOST;
-                } else if (childDimension == LayoutParams.WRAP_CONTENT) {
-                    // Child wants to determine its own size. It can't be
-                    // bigger than us.
-                    resultSize = size;
-                    resultMode = MeasureSpec.AT_MOST;
-                }
-                break;
-    
-            // Parent asked to see how big we want to be
-            case MeasureSpec.UNSPECIFIED:
-                if (childDimension >= 0) {
-                    // Child wants a specific size... let him have it
-                    resultSize = childDimension;
-                    resultMode = MeasureSpec.EXACTLY;
-                } else if (childDimension == LayoutParams.MATCH_PARENT) {
-                    // Child wants to be our size... find out how big it should
-                    // be
-                    resultSize = View.sUseZeroUnspecifiedMeasureSpec ? 0 : size;
-                    resultMode = MeasureSpec.UNSPECIFIED;
-                } else if (childDimension == LayoutParams.WRAP_CONTENT) {
-                    // Child wants to determine its own size.... find out how
-                    // big it should be
-                    resultSize = View.sUseZeroUnspecifiedMeasureSpec ? 0 : size;
-                    resultMode = MeasureSpec.UNSPECIFIED;
-                }
-                break;
-            }
-            //noinspection ResourceType
-            return MeasureSpec.makeMeasureSpec(resultSize, resultMode);
-        }
+__总结__      
 
+整个测量流程:     
+ViewGroup:  
+由ViewRootImpl.performMeasure中调用我们根ViewG的measure方法开始  
+而后根ViewGroup.measure中调用 onMeasure()方法(重写的方法)       
+在onMeasure()方法中 可以measureChildren，measureChild，measureChildWithMargins等方法计算出子View的测量模式再调用子View.measure()方法由子View去计算自己的宽高   
+同时计算出自己的宽高使用setMeasuredDimension(resultWidth, resultHeight);  设置    
+
+子View:
+子View的measure中也会去调用onMeasure去计算自己的宽高并也使用setMeasuredDimension(resultWidth, resultHeight);  设置    
+
+__注意：计算宽高时:ViewGroup处理自己的内边距和子View的外边距__       
+__子View需要计算自己的内边距__
