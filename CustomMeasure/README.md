@@ -122,7 +122,7 @@ ViewGroup和普通控件都继承了View,他们的测量都是从View.measure(in
                     mMeasureCache.indexOfKey(key);  
             if (cacheIndex < 0 || sIgnoreMeasureCache) {  
                 // 测量View的尺寸  
-                onMeasure(widthMeasureSpec, heightMeasureSpec);  
+                onMeeSpec);  
                 mPrivateFlags3 &= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;  
             } else {  
                 long value = mMeasureCache.valueAt(cacheIndex);  
@@ -443,5 +443,7 @@ ViewGroup:
 子View:
 子View的measure中也会去调用onMeasure去计算自己的宽高并也使用setMeasuredDimension(resultWidth, resultHeight);  设置    
 
-__注意：计算宽高时:ViewGroup处理自己的内边距和子View的外边距__       
-__子View需要计算自己的内边距__
+注意计算宽高时:  
+* 1.ViewGroup处理自己的内边距和子View的外边距       
+* 2.子View需要计算自己的内边距   
+* 3.测量规格是从上而下传递的，当测量模式为MeasureSpec.EXACTLY 时，ViewGroup宽高可以直接是测量宽高，而不用等到计算完子View的宽高后，在去计算自己的宽高 

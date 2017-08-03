@@ -38,7 +38,7 @@ __二.自定义View步骤__
 * 2、自定义View的属性    
 * 3、在View的构造方法中获得我们自定义的属性     
 * 4、重写onMeasure() 测量View大小 
-* 5、重写onLayout()  确定子View布局(自定义View包含子View时有用)
+* 5、重写onLayout()  确定子View布局(自定义ViewGroup包含子View时有用)
 * 6、重写onDraw       实际绘制内容
 
 
