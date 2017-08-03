@@ -214,53 +214,38 @@ __自定义View ,ViewGroup重写onMeasure()__
 所以在View默认情况下不管是math_parent还是warp_content都能占满父容器的剩余控件，所以一般在自定义时， 
 需要在onMeasure()中处理MeasureSpec.AT_MOST的情况 去算出控件的实际宽高，类似与下面这种处理:    
 
-    @Override  
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {  
-        // 声明一个临时变量来存储计算出的测量值  
-        int resultWidth = 0;  
-      
-        // 获取宽度测量规格中的mode  
-        int modeWidth = MeasureSpec.getMode(widthMeasureSpec);  
-      
-        // 获取宽度测量规格中的size  
-        int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);  
-      
-        /* 
-         * 如果父View准确测量出子View的大小
-         */  
-        if (modeWidth == MeasureSpec.EXACTLY) {  
-            // 子View直接使用
-            resultWidth = sizeWidth;  
-        }  
-        else {  
-            // 子View自己计算出大小  
-            resultWidth = ......;  
-      
-            /* 
-             * 如果是AT_MOST模式，子View宽度不应超过父View给出的大小
-             */  
-            if (modeWidth == MeasureSpec.AT_MOST) {  
-               //得到最大限制和计算出的宽之间的最小值
-                resultWidth = Math.min(resultWidth, sizeWidth);  
-            }  
-        }  
-      
-        int resultHeight = 0;  
-        int modeHeight = MeasureSpec.getMode(heightMeasureSpec);  
-        int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);  
-      
-        if (modeHeight == MeasureSpec.EXACTLY) {  
-            resultHeight = sizeHeight;  
-        } else {  
-            resultHeight = .....;  
-            if (modeHeight == MeasureSpec.AT_MOST) {  
-                resultHeight = Math.min(resultHeight, sizeHeight);  
-            }  
-        }  
-      
-        // 设置测量尺寸  
-        setMeasuredDimension(resultWidth, resultHeight);  
-    } 
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(getMeasureSize(widthMeasureSpec,Ratio.WIDTH),getMeasureSize(heightMeasureSpec,Ratio.HEIGHT));
+    }
+
+    private int getMeasureSize(int measureSpec,Ratio ratio){
+        int result=0;
+        int size = MeasureSpec.getSize(measureSpec);
+        int mode = MeasureSpec.getMode(measureSpec);
+
+        //EXACTLY直接赋值
+        if(mode==MeasureSpec.EXACTLY){
+            result=size;
+        }else{//AT_MOST和UNSPECIFIED一起处理
+            if(ratio==Ratio.HEIGHT){
+                result = 计算出高，注意处理PaddingTop paddingBottom
+            }else{
+               
+                result = 计算出宽，注意处理paddingRight,paddingLef
+
+                /**
+                 * AT_MOST时 判断内容大小和父View测量出的大小 取最小值
+                 */
+                if(mode==MeasureSpec.AT_MOST){
+                    result = Math.min(result, size);
+                }
+            }
+        }
+
+        return result;
+    }
 
 在自定义ViewGroup中重写onMeasure()我们除了在测量模式为MeasureSpec.AT_MOST情况下，计算出自己的宽高外     
 还需要计算出子控件的宽高，ViewGroup中一般计算子View测量宽高的方法有以下几种        

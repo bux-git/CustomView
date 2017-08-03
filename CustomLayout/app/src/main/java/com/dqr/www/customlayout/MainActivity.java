@@ -1,7 +1,7 @@
 package com.dqr.www.customlayout;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -9,9 +9,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Test test;
-        GoTest goTest = new GoTest();
-        test=goTest;
-        test.print();
     }
 }

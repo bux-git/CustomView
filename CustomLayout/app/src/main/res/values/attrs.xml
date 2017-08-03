@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="title" format="reference|string"></attr>
+    <attr name="img" format="reference"></attr>
+    <declare-styleable name="IconView">
+        <attr name="title"></attr>
+        <attr name="img"></attr>
+    </declare-styleable>
+</resources>
