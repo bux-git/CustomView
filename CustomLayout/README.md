@@ -1,4 +1,10 @@
-#### layout
+#### layout 
+
+__学习资料__    
+[ 自定义View系列教程03--onLayout源码详尽分析](http://blog.csdn.net/lfdfhl/article/details/51393131)  
+[自定义控件其实很简单7/12](http://blog.csdn.net/aigestudio/article/details/42989325)  
+
+
 ViewGroup,普通View控件都继承自View,他们的布局都是从View的layout方法开始。     
 还是从根View开始，在ViewRootImpl.performTraversals()中根View在经过measure阶段以后，   
 系统确定了根View的测量大小后，接下来就进入到layout的过程，    

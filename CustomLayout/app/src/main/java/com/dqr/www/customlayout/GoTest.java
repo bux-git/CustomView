@@ -15,4 +15,8 @@ public class GoTest extends ParentTest {
     public void print() {
         Log.d(TAG, "print: ");
     }
+
+    public void test(){
+
+    }
 }
