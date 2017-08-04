@@ -122,7 +122,7 @@ ViewGroup和普通控件都继承了View,他们的测量都是从View.measure(in
                     mMeasureCache.indexOfKey(key);  
             if (cacheIndex < 0 || sIgnoreMeasureCache) {  
                 // 测量View的尺寸  
-                onMeeSpec);  
+                onMeasure(widthMeasureSpec, heightMeasureSpec);
                 mPrivateFlags3 &= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;  
             } else {  
                 long value = mMeasureCache.valueAt(cacheIndex);  

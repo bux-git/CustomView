@@ -4,13 +4,15 @@
 进行学习,加固，带着这段时间工作中 学习中学到的一些知识，重新去学习理解 Android 自定义View    
 并根据学习资料整理出更加适合自己理解的笔记,加油!
 
-#### 学习资料      
+#### 学习资料    
+  
  [Android自定义控件三部曲文章索引](http://blog.csdn.net/harvic880925/article/details/50995268)  
  [Android自定义控件其实很简单](http://blog.csdn.net/column/details/androidcustomview.html)    
  [自定义View](https://github.com/GcsSloop/AndroidNote)     
  [ 自定义View系列教程](http://blog.csdn.net/lfdfhl/article/details/51324275)   
  [带你一步步深入了解View](http://blog.csdn.net/guolin_blog/article/details/12921889)         
-    
+ [ Android应用层View绘制流程与源码分析](http://blog.csdn.net/yanbober/article/details/46128379)     
+ 
 -----------
 
 __一.基础篇__   
@@ -22,5 +24,4 @@ __二.进阶__
 * [自定义View总览 ](https://github.com/bux-git/CustomView/tree/master/CustomSummary)     
 * [自定义属性](https://github.com/bux-git/CustomView/tree/master/CustomAttrs)            
 * [View的Measure](https://github.com/bux-git/CustomView/tree/master/CustomMeasure)        
-* [View的Layout](https://github.com/bux-git/CustomView/tree/master/CustomLayout)  
-* [onMeasure onLayout小示例](https://github.com/bux-git/CustomView/tree/master/CustomLayout)
+* [View的Layout&draw](https://github.com/bux-git/CustomView/tree/master/CustomLayout)  

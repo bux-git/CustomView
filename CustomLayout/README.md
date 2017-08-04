@@ -1,9 +1,9 @@
-#### layout 
+#### layout & draw
 
 __学习资料__    
 [ 自定义View系列教程03--onLayout源码详尽分析](http://blog.csdn.net/lfdfhl/article/details/51393131)  
-[自定义控件其实很简单7/12](http://blog.csdn.net/aigestudio/article/details/42989325)  
-
+[自定义控件其实很简单7/12](http://blog.csdn.net/aigestudio/article/details/42989325)      
+[ Android应用层View绘制流程与源码分析](http://blog.csdn.net/yanbober/article/details/46128379)
 
 ViewGroup,普通View控件都继承自View,他们的布局都是从View的layout方法开始。     
 还是从根View开始，在ViewRootImpl.performTraversals()中根View在经过measure阶段以后，   
@@ -131,3 +131,11 @@ ViewGroup中的onLayout,是一个抽象方法，所以他的子 View都会重写
 概况地讲：        
 View的layout()方法用于View确定自己本身在其父View的位置   
 ViewGroup的onLayout()方法用于确定子View的位置,同时也要记得处理自己的padding和子View的layoutMargins  
+
+#### draw   
+____
+在measure中测量了View的大小，在layout阶段确定了View的位置。 完成这两步之后就进入到了draw阶段，在该阶段真正地开始对视图进行绘制    
+Draw的流程也和measure.layout类似：  
+[Android应用层View绘制流程与源码分析](http://blog.csdn.net/yanbober/article/details/46128379)
+
+

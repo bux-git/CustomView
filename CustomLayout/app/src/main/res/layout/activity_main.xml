@@ -17,28 +17,29 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:img="@mipmap/ic_launcher_round"
-        android:layout_marginLeft="20dp"
+        android:layout_margin="5dp"
+
         app:title="测试"/>
     <com.dqr.www.customlayout.IconView
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:img="@mipmap/ic_launcher_round"
-        android:layout_marginLeft="30dp"
+        android:layout_margin="10dp"
         app:title="测试"/>
     <com.dqr.www.customlayout.IconView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:img="@mipmap/ic_launcher_round"
-        android:layout_marginLeft="40dp"
+        android:layout_margin="10dp"
         app:title="测试"/>
     <com.dqr.www.customlayout.IconView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:img="@mipmap/ic_launcher_round"
-        android:layout_marginLeft="50dp"
+        android:layout_margin="15dp"
         app:title="测试"/>
 
 </com.dqr.www.customlayout.CustomLayout>
