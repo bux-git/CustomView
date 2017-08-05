@@ -26,4 +26,4 @@ __二.进阶__
 * [View的Measure](https://github.com/bux-git/CustomView/tree/master/CustomMeasure)        
 * [View的Layout&draw](https://github.com/bux-git/CustomView/tree/master/CustomLayout)  
 * [Paint和Canvas等，略过暂时]()        
-* [事件分发]()
+* [事件分发](https://github.com/bux-git/CustomView/tree/master/TouchEvent)
